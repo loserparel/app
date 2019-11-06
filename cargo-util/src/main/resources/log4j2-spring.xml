@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    6个优先级从高到低依次为：OFF、FATAL、ERROR、WARN、INFO、DEBUG、TRACE、 ALL。
+    如果设置优先级为WARN，那么OFF、FATAL、ERROR、WARN 4个级别的log能正常输出
+    设置为OFF 表示不记录log4j2本身的日志，
+ -->
+
+<!-- status：用来指定log4j本身的打印日志级别,monitorInterval:指定log4j自动重新配置的监测间隔时间 -->
+<configuration status="INFO" monitorInterval="30">
+    <!-- 自己设置属性，后面通过${}来访问 -->
+<!--    <properties>
+        <property name="LOG_HOME">${web:rootDir}/logs</property>
+    </properties>-->
+    <properties>
+    	<property name="LOG_HOME">/home/cargo/logs</property>
+    </properties>
+    
+    <appenders>
+        <!--Appender 1. 输出到Console控制台，指定输出格式和过滤器等级为INFO -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--ThresholdFilter指定日志消息的输出最低层次-->
+            <ThresholdFilter level="ALL" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d [%-5p] [%c{15}] - %m%n"/>
+        </Console>
+
+        <!--Appender 2. 输出到滚动保存的文件, 触发保存日志文件的条件是日志文件大于3KB，只保存最新的10个日志-->
+        <RollingFile name="BIZ_DEFAULT" fileName="${LOG_HOME}/biz-default.log" filePattern="${LOG_HOME}/biz-default.log.%d{yyyy-MM-dd}">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout charset="UTF-8" pattern="%d [%-5p] [%c{15}] - %m%n"/>
+            <Policies>
+            	<TimeBasedTriggeringPolicy/>
+            	<!-- 
+            		<SizeBasedTriggeringPolicy size="100 MB"/>
+            	 -->
+            </Policies>
+        </RollingFile>
+        
+        <RollingFile name="SPRING-APPENDER" fileName="${LOG_HOME}/spring-default.log" filePattern="${LOG_HOME}/spring-default.log.%d{yyyy-MM-dd}">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout charset="UTF-8" pattern="%d [%-5p] [%c{15}] - %m%n"/>
+            <Policies>
+            	<TimeBasedTriggeringPolicy/>
+            	<!-- 
+            		<SizeBasedTriggeringPolicy size="100 MB"/>
+            	 -->
+            </Policies>
+        </RollingFile>
+
+
+
+        <!--Appender 4. 输出到滚动保存的文件, 触发保存日志文件的条件是每分钟第一次的日志事件。ERROR日志是按分钟产生日志 -->
+        <RollingFile name="ERROR_LOG" fileName="${LOG_HOME}/error.log" filePattern="${LOG_HOME}/error.log.%d{yyyy-MM-dd}">
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout charset="UTF-8" pattern="%d [%-5p] [%c{15}] - %m%n"/>
+            <Policies>
+            	<TimeBasedTriggeringPolicy/>
+            	<!-- 
+            		<SizeBasedTriggeringPolicy size="100 MB"/>
+            	 -->
+            </Policies>
+        </RollingFile>
+
+    </appenders>
+    <!--root 默认加载-->
+    <loggers>
+    	<logger name="com.monster" level="INFO" additivity="true" >
+    		<appender-ref ref="BIZ_DEFAULT" />
+    		<appender-ref ref="ERROR_LOG"/>
+    	</logger>
+    	<logger name="org.springframework" level="ERROR" additivity="true">
+    		<appender-ref ref="SPRING-APPENDER"/>
+    	</logger>
+        <root level="INFO">
+            <appender-ref ref="Console"/>
+        </root>
+    </loggers>
+</configuration>

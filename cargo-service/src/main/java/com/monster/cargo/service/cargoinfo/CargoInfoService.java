@@ -6,4 +6,5 @@ public interface CargoInfoService {
 
 	public SuperCargoInfoDo querySuperCargoInfos(SuperCargoInfoDo superCargoInfoDo);
 	
+    int insert(SuperCargoInfoDo record);
 }

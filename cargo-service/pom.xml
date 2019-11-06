@@ -11,5 +11,9 @@
 		<groupId>com.monster</groupId>
 		<artifactId>cargo-dao</artifactId>
   	</dependency>
+  	<dependency>
+		<groupId>com.monster</groupId>
+		<artifactId>cargo-util</artifactId>
+  	</dependency>
   </dependencies>
 </project>

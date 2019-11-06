@@ -15,4 +15,10 @@ public class CargoInfoServiceImpl implements CargoInfoService{
 	public SuperCargoInfoDo querySuperCargoInfos(SuperCargoInfoDo superCargoInfoDo){
 		return superCargoInfoMapper.selectByPrimaryKey(superCargoInfoDo);
 	}
+
+	@Override
+	public int insert(SuperCargoInfoDo record) {
+		return superCargoInfoMapper.insert(record);
+	}
+	
 }
