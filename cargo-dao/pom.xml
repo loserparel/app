@@ -13,7 +13,7 @@
 		  <artifactId>mybatis-spring-boot-starter</artifactId>
 	  </dependency>
 	  <dependency>
-		  <groupId>mysql</groupId>
+		  <groupId>mysql</groupId> 
 		  <artifactId>mysql-connector-java</artifactId>
 		  <scope>runtime</scope>
 	  </dependency>
