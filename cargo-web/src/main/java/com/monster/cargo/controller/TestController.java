@@ -52,4 +52,9 @@ public class TestController {
 		System.out.println(i);
 		return jsonObject;
 	}
+	
+	@RequestMapping("/mygirl")
+	public String mygirl(ModelMap modelMap , HttpServletResponse response) {
+		return "mygirl";
+	}
 }
